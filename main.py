@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 # Load a pre-trained YOLOv8 model   
 
-model = YOLO("yolov8x")  # Load a pre-trained YOLOv8 model
+model = YOLO("models/player_detecter.pt")  # Load a pre-trained YOLOv8 model
 
 results = model.predict("input_videos/video_1.mp4", save=True) # Predict objects in the video and save the output
 print(results) # Print the results of the prediction
