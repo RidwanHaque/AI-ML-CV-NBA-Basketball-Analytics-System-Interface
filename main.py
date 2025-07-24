@@ -1,12 +1,12 @@
-from ultralytics import YOLO
-# Load a pre-trained YOLOv8 model   
+from utils import read_video, save_video
 
-model = YOLO("models/player_detector.pt")  # Load a pre-trained YOLOv8 model
+def main():
 
-results = model.predict("input_videos/video_1.mp4", save=True) # Predict objects in the video and save the output
-print(results) # Print the results of the prediction
-print("======================") # Separator for clarity
-for box in results[0].boxes: # Iterate through detected boxes
-    print(box)  # Print each detected box
+    # Read Video
+    video_frames = read_video("input_videos/video_1.mp4")
 
-#video consists of multiple frames, each frame is an image
+    # Save Video
+    save_video(video_frames, "output_videos/output_video.avi")
+
+if __name__ == "__main__":
+    main()
