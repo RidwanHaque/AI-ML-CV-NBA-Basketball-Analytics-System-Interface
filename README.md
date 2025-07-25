@@ -114,3 +114,41 @@ With save=true, a "runs" folder is automatically created containing the output d
 
 # Added Notebooks folder for training
 - optimal to run this on a capable machine. we will upload code via collab
+
+
+
+
+
+
+
+
+# Player Team Assignment with Zero Shot Classification
+
+- goal is to have a neural network that can analyze image and identify jersey color on player objects
+
+input into the neural network and output would be composed of predefined list of classes 
+the defined list of classes are from a training set. if a model was trained on 10000 images and there were 4 fruits each with 2000 images 
+each image had label and then trained with the dataset for image classification
+
+we need a model that extracts colors from image to make a classification which is difficult to find
+
+so we use classifier w/o any data  (zero shot classifier) which intakes image (premise) and class name (Hypothesis)
+this neural network does not produce an infinite number of labels and only produces 3:
+
+- entailment (correct)
+- neutral (the hypothesis(input) has little relation to the premise/input image)
+- contradiction (incorrect)
+
+
+# Hugging Face model library
+image classification model we are using is fashion clip model 
+it analyzes what the user is wearing and makes a class classification 
+
+![alt text](image-2.png)
+
+we need to preprocess the image of our jerseys to fit the model
+we have to load the model and the preproccesor. we call preprocessor and pass in class names and we give in the images
+it will then return **Pytorch Tensors** . pytorch is a library for machine learning models and deep learning models. 
+we will be interacting with the model we've selected through **Transformers**(the library name for hugging face).
+
+the outputs of the model we would take the one with the higher score
