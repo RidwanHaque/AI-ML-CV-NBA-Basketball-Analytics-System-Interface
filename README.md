@@ -152,3 +152,14 @@ it will then return **Pytorch Tensors** . pytorch is a library for machine learn
 we will be interacting with the model we've selected through **Transformers**(the library name for hugging face).
 
 the outputs of the model we would take the one with the higher score
+
+
+
+
+
+
+## Ball Acquisition 
+
+
+- basically model will measure if the bounding box of the ball has a >80% overlap with the bounding box of the player then that would indicate a player posseses the ball
+
