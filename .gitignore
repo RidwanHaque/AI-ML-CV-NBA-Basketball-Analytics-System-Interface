@@ -1,0 +1,9 @@
+# Ignore the Python virtual environment
+cv_env/
+
+# Ignore Python cache folders and files
+__pycache__/
+*.pyc
+
+# Ignore video files in the output directory
+output_videos/

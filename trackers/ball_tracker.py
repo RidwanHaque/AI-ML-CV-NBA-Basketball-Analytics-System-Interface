@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import supervision as sv
+import numpy as np
 import sys
 sys.path.append("../")  # Adjust the path to import from the parent directory
 from utils import read_stub, save_stub  # Import stub utilities
@@ -58,3 +59,45 @@ class BallTracker:
         # the whole stub thing was to provide checkpoints in the code so that if it crashes, we can resume from the last checkpoint
         # this is useful for long videos where the tracker takes a lot of time to run   
         return tracks
+
+
+
+# Ball interpolation 
+# fucntion that will sipress detections based nt he distance form the previous detection
+
+    def remove_wrong_detections(self,ball_positions):
+        """
+        Filter out incorrect ball detections based on maximum allowed movement distance.
+
+        Args:
+            ball_positions (list): List of detected ball positions across frames.
+
+        Returns:
+            list: Filtered ball positions with incorrect detections removed.
+        """
+        
+        maximum_allowed_distance = 25
+        last_good_frame_index = -1
+
+        for i in range(len(ball_positions)):
+            current_box = ball_positions[i].get(1, {}).get('bbox', [])
+
+            if len(current_box) == 0:
+                continue
+
+            if last_good_frame_index == -1:
+                # First valid detection
+                last_good_frame_index = i
+                continue
+
+            last_good_box = ball_positions[last_good_frame_index].get(1, {}).get('bbox', [])
+            frame_gap = i - last_good_frame_index
+            adjusted_max_distance = maximum_allowed_distance * frame_gap
+
+            if np.linalg.norm(np.array(last_good_box[:2]) - np.array(current_box[:2])) > adjusted_max_distance:
+                ball_positions[i] = {}
+            else:
+                last_good_frame_index = i
+
+        return ball_positions
+
