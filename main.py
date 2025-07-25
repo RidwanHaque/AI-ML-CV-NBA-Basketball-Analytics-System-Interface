@@ -22,11 +22,10 @@ def main():
 
 
 
-    # Interpolate Ball Tracks (remove wrong ball detections
+    # Interpolate Ball Tracks (remove wrong ball detections)
     ball_tracks = ball_tracker.remove_wrong_detections(ball_tracks)
 
-
-    
+    ball_tracks = ball_tracker.interpolate_ball_positions(ball_tracks)
 
     # draw output
     # initialize drawers

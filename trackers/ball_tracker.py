@@ -1,6 +1,7 @@
 from ultralytics import YOLO
 import supervision as sv
 import numpy as np
+import pandas as pd
 import sys
 sys.path.append("../")  # Adjust the path to import from the parent directory
 from utils import read_stub, save_stub  # Import stub utilities
@@ -100,4 +101,18 @@ class BallTracker:
                 last_good_frame_index = i
 
         return ball_positions
+    
+
+    def interpolate_ball_positions(self, ball_positions):
+        ball_positions = [x.get(1,{}).get('bbox', []) for x in ball_positions]
+        df_ball_positions = pd.DataFrame(ball_positions, columns=["x1", "y1", "x2", "y2"])
+
+        #Interpolate missing values
+        df_ball_positions = df_ball_positions.interpolate()
+        df_ball_positions = df_ball_positions.bfill()
+
+        ball_positions = [{1:{"bbox":x}} for x in df_ball_positions.to_numpy().tolist()]
+    
+        return ball_positions
+
 
