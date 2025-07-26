@@ -1,5 +1,8 @@
 ## Documentation 
 
+![alt text](image-3.png)
+
+
 
 # Research 
 
@@ -155,11 +158,21 @@ the outputs of the model we would take the one with the higher score
 
 
 
-
-
-
 ## Ball Acquisition 
 
 
 - basically model will measure if the bounding box of the ball has a >80% overlap with the bounding box of the player then that would indicate a player posseses the ball
+
+
+
+## Court Key Point Detection
+
+neural network that outputs numbers relative to the frame
+Setting this up allows us to track player position and speed 
+
+I utilized computer vision pose model that is fine tuned through reinforced learning using lightning AI 
+We will train model on nba court keypoint detection dataset 
+
+https://universe.roboflow.com/fyp-3bwmg/reloc2-den7l
+
 
