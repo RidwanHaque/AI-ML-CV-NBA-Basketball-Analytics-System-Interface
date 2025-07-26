@@ -2,6 +2,12 @@
 
 ![alt text](image-3.png)
 
+for model training utilized cloud gpus from google cloud Platform
+- 4 CPUs 
+- 1 T4 GPU
+
+
+![alt text](image-5.png)
 
 
 # Research 
@@ -162,6 +168,11 @@ the outputs of the model we would take the one with the higher score
 
 
 - basically model will measure if the bounding box of the ball has a >80% overlap with the bounding box of the player then that would indicate a player posseses the ball
+
+
+
+![alt text](image-4.png)
+
 
 
 
