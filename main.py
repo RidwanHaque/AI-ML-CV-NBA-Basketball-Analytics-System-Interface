@@ -1,10 +1,10 @@
 from utils import read_video, save_video
 from trackers import PlayerTracker, BallTracker
-from drawers import PlayerTracksDrawer, BallTracksDrawer, TeamBallControlDrawer, PassInterceptionDrawer
+from drawers import PlayerTracksDrawer, BallTracksDrawer, TeamBallControlDrawer, PassInterceptionDrawer, CourtKeypointDrawer
 from team_assigner import TeamAssigner
 from ball_aquisition import BallAquisitionDetector
 from pass_and_interception_detector import PassAndInterceptionDetector
-
+from court_keypoint_detector import CourtKeypointDetector
 
 
 def main():
@@ -17,6 +17,8 @@ def main():
     # initialize Ball Tracker
     ball_tracker = BallTracker("models/ball_detector_model.pt")
 
+    # initialize Court Key Point Detector
+    court_keypoint_detector = CourtKeypointDetector("models/court_keypoint_detector.pt")
 
 
 
@@ -27,6 +29,12 @@ def main():
 
     ball_tracks = ball_tracker.get_object_tracks(video_frames, read_from_stub=True, stub_path="stubs/ball_track_stubs.pkl")
 
+
+
+
+
+    # get court keypoints
+    court_keypoints = court_keypoint_detector.get_court_keypoints(video_frames, read_from_stub=True, stub_path = "stubs/court_key_points_stubs.pkl")
 
 
     # Interpolate Ball Tracks (remove wrong ball detections)
@@ -62,6 +70,8 @@ def main():
     ball_tracks_drawer = BallTracksDrawer()
     team_ball_control_drawer = TeamBallControlDrawer()
     pass_interception_drawer = PassInterceptionDrawer()
+    court_keypoint_drawer = CourtKeypointDrawer()
+
 
     # Draw object tracks
     output_video_frames = player_tracks_drawer.draw(video_frames, player_tracks,player_assignment, ball_aquisition)
@@ -77,6 +87,9 @@ def main():
     # draw passes an interceptions 
     output_video_frames = pass_interception_drawer.draw(output_video_frames, passes, interceptions)
 
+
+    # draw court key points
+    output_video_frames = court_keypoint_drawer.draw(output_video_frames, court_keypoints)
 
     # Save Video
     save_video(output_video_frames, "output_videos/output_video.avi")
