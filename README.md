@@ -3,11 +3,15 @@
 ![alt text](image-3.png)
 
 for model training utilized cloud gpus from google cloud Platform
-- 4 CPUs 
-- 1 T4 GPU
+- 4 CPUs (running non-intensive cells)
+- 1 T4 GPU (model training for player detection and ball detection)
+- 1 L4 GPU (For Key point detection model training)
 
 
 ![alt text](image-5.png)
+
+![alt text](image-6.png)
+
 
 
 # Research 
