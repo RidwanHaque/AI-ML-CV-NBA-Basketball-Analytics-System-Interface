@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+cv_env
+.vscode
+.git
+output_videos
+input_videos
+*.pkl
+*.pt
+models/*.pt

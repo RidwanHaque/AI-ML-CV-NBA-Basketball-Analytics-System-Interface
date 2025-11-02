@@ -1,0 +1,13 @@
+numpy
+opencv-python-headless
+Pillow
+requests
+scipy
+transformers
+tokenizers
+huggingface-hub
+supervision
+ultralytics
+safetensors
+pandas
+# add any other runtime libs your app needs (but NOT jupyter, pywin32, ipykernel, debug tools)

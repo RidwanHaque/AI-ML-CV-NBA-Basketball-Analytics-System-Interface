@@ -8,7 +8,7 @@ class CourtKeypointDrawer:
         keypoint_color (str): Hex color value for the keypoints.
     """
     def __init__(self):
-        self.keypoint_color = '#ff2c2c'
+        self.keypoint_color = "#b005ff"
 
     def draw(self, frames, court_keypoints):
         """

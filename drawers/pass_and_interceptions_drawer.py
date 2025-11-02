@@ -67,7 +67,7 @@ class PassInterceptionDrawer:
     
     def draw_frame(self, frame, frame_num, passes, interceptions):
         """
-        Draw a semi-transparent overlay of pass and interception counts on a single frame.
+        Draw a professional semi-transparent overlay of pass and interception counts on a single frame.
 
         Args:
             frame (numpy.ndarray): The current video frame on which the overlay will be drawn.
@@ -78,24 +78,35 @@ class PassInterceptionDrawer:
         Returns:
             numpy.ndarray: The frame with the semi-transparent overlay and statistics.
         """
-        # Draw a semi-transparent rectangle
         overlay = frame.copy()
+        
+        # Professional styling parameters
         font_scale = 0.7
-        font_thickness=2
+        font_thickness = 2
+        header_font_scale = 0.8
+        border_thickness = 3
 
-        # Overlay Position
+        # Overlay Position - positioned below ball control in lower screen
         frame_height, frame_width = overlay.shape[:2]
-        rect_x1 = int(frame_width * 0.16) 
-        rect_y1 = int(frame_height * 0.75)
-        rect_x2 = int(frame_width * 0.55)  
-        rect_y2 = int(frame_height * 0.90)
-        # Text positions
-        text_x = int(frame_width * 0.19)  
-        text_y1 = int(frame_height * 0.80)  
-        text_y2 = int(frame_height * 0.88)
+        rect_x1 = int(frame_width * 0.02)   # Left margin (same as ball control)
+        rect_y1 = int(frame_height * 0.80)  # Below ball control overlay (was 0.18)
+        rect_x2 = int(frame_width * 0.28)   # Slightly wider for more text
+        rect_y2 = int(frame_height * 0.99)  # Near bottom of screen (was 0.35)
+        
+        # Text positions with better spacing
+        text_x = rect_x1 + 15
+        header_y = rect_y1 + 25
+        team1_pass_y = rect_y1 + 50
+        team1_int_y = rect_y1 + 75
+        team2_pass_y = rect_y1 + 100
+        team2_int_y = rect_y1 + 125
 
-        cv2.rectangle(overlay, (rect_x1, rect_y1), (rect_x2, rect_y2), (255,255,255), -1)
-        alpha = 0.8
+        # Draw main background with professional styling
+        cv2.rectangle(overlay, (rect_x1, rect_y1), (rect_x2, rect_y2), (40, 40, 40), -1)  # Dark background
+        cv2.rectangle(overlay, (rect_x1, rect_y1), (rect_x2, rect_y2), (255, 165, 0), border_thickness)  # Orange border
+        
+        # Semi-transparent overlay
+        alpha = 0.9
         cv2.addWeighted(overlay, alpha, frame, 1 - alpha, 0, frame)
 
         # Get stats until current frame
@@ -107,25 +118,20 @@ class PassInterceptionDrawer:
             interceptions_till_frame
         )
 
-        cv2.putText(
-            frame, 
-            f"Team 1 - Passes: {team1_passes} Interceptions: {team1_interceptions}",
-            (text_x, text_y1), 
-            cv2.FONT_HERSHEY_SIMPLEX, 
-            font_scale, 
-            (0,0,0), 
-            font_thickness
-        )
-        
-        cv2.putText(
-            frame, 
-            f"Team 2 - Passes: {team2_passes} Interceptions: {team2_interceptions}",
-            (text_x, text_y2), 
-            cv2.FONT_HERSHEY_SIMPLEX, 
-            font_scale, 
-            (0,0,0), 
-            font_thickness
-        )
+        # Draw header
+        cv2.putText(frame, "GAME STATISTICS", (text_x, header_y), 
+                   cv2.FONT_HERSHEY_SIMPLEX, header_font_scale, (255, 255, 255), font_thickness + 1)
 
+        # Draw team 1 statistics in green
+        cv2.putText(frame, f"Team 1 Passes: {team1_passes}", (text_x, team1_pass_y), 
+                   cv2.FONT_HERSHEY_SIMPLEX, font_scale, (100, 255, 100), font_thickness)
+        cv2.putText(frame, f"Team 1 Steals: {team1_interceptions}", (text_x, team1_int_y), 
+                   cv2.FONT_HERSHEY_SIMPLEX, font_scale, (100, 255, 100), font_thickness)
+        
+        # Draw team 2 statistics in red
+        cv2.putText(frame, f"Team 2 Passes: {team2_passes}", (text_x, team2_pass_y), 
+                   cv2.FONT_HERSHEY_SIMPLEX, font_scale, (100, 100, 255), font_thickness)
+        cv2.putText(frame, f"Team 2 Steals: {team2_interceptions}", (text_x, team2_int_y), 
+                   cv2.FONT_HERSHEY_SIMPLEX, font_scale, (100, 100, 255), font_thickness)
 
         return frame
